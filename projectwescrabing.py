@@ -66,22 +66,25 @@ def scrape_jumia():
     })
     return df
 
-st.title("Jumia Product Scraper")
-st.subheader("We will scrape many products and choose the best product of best price and best discount ")
-if st.button("Scrape now.."):
-    with st.spinner("Scraping data from Jumia..."):
-        df = scrape_jumia()
 
-    if df.empty:
-        st.warning("No data scraped. Please check the website or your scraping logic.")
-    else:
-        st.success("Scraping completed successfully!")
-        st.dataframe(df)
 st.sidebar.title("Navigations")
 st.sidebar.markdown("Created by [Youssef Shady](https://www.facebook.com/share/18MJH5gqat/?mibextid=LQQJ4d)")
 st.sidebar.image("jumiaimage.png")
-c1 = st.sidebar.selectbox("select an option..", ["EDA","Insights"])
-if c1 == "EDA":
+c1 = st.sidebar.selectbox("select an option..", ["Home","EDA","Insights"])
+if c1 == "Home":
+    st.title("Jumia Product Scraper")
+    st.subheader("We will scrape many products and choose the best product of best price and best discount ")
+    if st.button("Scrape now.."):
+        with st.spinner("Scraping data from Jumia..."):
+            df = scrape_jumia()
+    
+        if df.empty:
+            st.warning("No data scraped. Please check the website or your scraping logic.")
+        else:
+            st.success("Scraping completed successfully!")
+            st.dataframe(df)
+        
+elif c1 == "EDA":
     c2 = st.sidebar.radio("select chart", ["Bar chart" , "Scatter chart"])
     if c2 == "Scatter chart":
         st.subheader("Prices")
