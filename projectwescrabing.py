@@ -26,7 +26,6 @@ def init_driver(service):
     firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', False)
     firefox_profile.set_preference("media.volume_scale", "0.0")
     firefox_profile.set_preference("dom.webnotifications.enabled", False)
-    firefoxOptions.binary_location = "/usr/bin/firefox"  # Set this path if Firefox isn't found automatically
     URL = ""
     TIMEOUT = 20
 
