@@ -9,8 +9,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
+import os
+import stat
 
-service = Service(executable_path="./geckodriver")
+# Path to geckodriver inside the 'drivers' directory
+geckodriver_path = "./drivers/geckodriver"
+
+# Check if file exists and set executable permissions
+if not os.access(geckodriver_path, os.X_OK):
+    os.chmod(geckodriver_path, stat.S_IEXEC)
+
+service = Service(executable_path=geckodriver_path)
 
 def init_driver(service):
     firefox_profile = webdriver.FirefoxProfile()
