@@ -70,7 +70,7 @@ st.sidebar.image("jumiaimage.png")
 c1 = st.sidebar.selectbox("Select an option...", ["EDA", "Insights"])
 
 
-
+df = None
 st.title("Jumia Product Scraper")
 st.subheader("We will scrape many products and choose the best product of best price and best discount ")
 if st.button("Scrape now.."):
