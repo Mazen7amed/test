@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 
-service = Service(executable_path=r"C:\Users\hmaze\Desktop\geckodriver-v0.35.0-linux-aarch64.tar.gz")
+service = Service(executable_path="geckodriver-v0.35.0-linux-aarch64.tar.gz")
 
 def init_driver(service):
     firefox_profile = webdriver.FirefoxProfile()
