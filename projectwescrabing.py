@@ -11,7 +11,7 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.firefox import GeckoDriverManager
 
 
-service = Service(GeckoDriverManager().install())
+service = Service(executable_path="./geckodriver")
 
 def init_driver(service):
     firefox_profile = webdriver.FirefoxProfile()
