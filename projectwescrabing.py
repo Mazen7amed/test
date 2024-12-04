@@ -14,19 +14,26 @@ import stat
 
 # Function to run bash commands
 def run_bash_command(command):
-    result = subprocess.run(command, shell=True, text=True, capture_output=True)
-    return result.stdout, result.stderr
+    try:
+        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return result.stdout.decode(), result.stderr.decode()
+    except subprocess.CalledProcessError as e:
+        return e.stdout.decode(), e.stderr.decode()
 
-# Install Firefox and Geckodriver if needed
+# Sidebar for Setup Environment
 st.sidebar.title("Setup Environment")
+
 if st.sidebar.button("Setup Environment"):
     with st.spinner("Installing Firefox and Geckodriver..."):
+        
+        # Install Firefox
         stdout, stderr = run_bash_command("apt-get update && apt-get install -y firefox-esr")
         if stderr:
             st.error(f"Error installing Firefox: {stderr}")
         else:
             st.success("Firefox installed successfully!")
         
+        # Install Geckodriver
         stdout, stderr = run_bash_command(
             "curl -L https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz -o geckodriver.tar.gz && "
             "tar -xvzf geckodriver.tar.gz && "
