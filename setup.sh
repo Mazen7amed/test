@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install Firefox
+# Update and install Firefox
 apt-get update
 apt-get install -y firefox-esr
 
