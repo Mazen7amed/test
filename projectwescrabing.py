@@ -88,19 +88,18 @@ if c1 == "EDA":
     if df is not None:
         c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
         if c2 == "Scatter chart":
-            df2 = df
             st.subheader("Prices")
-            sc1 = px.scatter(df2, x="Price", y="Old Price", color="Discount")
+            sc1 = px.scatter(df, x="Price", y="Old Price", color="Discount")
             st.plotly_chart(sc1)
             st.subheader("Discounts")
-            sc2 = px.scatter(df2, x="Old Price", y="Discount", color="Discount")
+            sc2 = px.scatter(df, x="Old Price", y="Discount", color="Discount")
             st.plotly_chart(sc2)
         elif c2 == "Bar chart":
             st.subheader("Prices")
-            br1 = px.bar(df2, x="Price", y="Old Price", color="Discount")
+            br1 = px.bar(df, x="Price", y="Old Price", color="Discount")
             st.plotly_chart(br1)
             st.subheader("Discounts")
-            br2 = px.bar(df2, x="Old Price", y="Discount", color="Discount")
+            br2 = px.bar(df, x="Old Price", y="Discount", color="Discount")
             st.plotly_chart(br2)
         else:
             st.warning("Please scrape data first by going to the Home section.")
