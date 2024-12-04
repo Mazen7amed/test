@@ -16,18 +16,13 @@ def installff():
   os.system('sbase install geckodriver')
   os.system('ln -s /home/appuser/venv/lib/python3.12/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
 
-installff()
-from selenium import webdriver
-from selenium.webdriver import FirefoxOptions
-opts = FirefoxOptions()
-opts.add_argument("--headless")
-driver = webdriver.Firefox(options=opts)
-
-
-TIMEOUT = 20
 
 
 def scrape_jumia():
+    installff()
+    opts = FirefoxOptions()
+    opts.add_argument("--headless")
+    driver = webdriver.Firefox(options=opts)
     driver.get("https://www.jumia.com.eg/")
     wait = WebDriverWait(driver, 30)  # Increase wait time to 30 seconds
     try:
