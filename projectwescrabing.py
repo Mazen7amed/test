@@ -11,16 +11,13 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.firefox import GeckoDriverManager
 
 
+TIMEOUT = 20
 
 firefoxOptions = Options()
 firefoxOptions.add_argument("--headless")
-service = Service(GeckoDriverManager().install())
-driver = webdriver.Firefox(
-    options=firefoxOptions,
-    service=service,
-)
-TIMEOUT = 20
-
+geckodriver_path = "./driver/geckodriver"
+service = Service(geckodriver_path)
+driver = webdriver.Firefox(options=firefoxOptions,service=service)
 st.title("Test Selenium")
 
 def scrape_jumia():
