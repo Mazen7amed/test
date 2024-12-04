@@ -13,7 +13,7 @@ import os, sys
 def installff():
     os.system('sbase install geckodriver')
     os.system('ln -s /home/appuser/venv/lib/python3.10/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
-installff()
+#installff()
 
 def init_driver():
     firefox_profile = webdriver.FirefoxProfile()
