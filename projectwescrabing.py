@@ -63,53 +63,48 @@ def scrape_jumia():
     })
     return df
 
+
 st.sidebar.title("Navigations")
 st.sidebar.markdown("Created by [Youssef Shady](https://www.facebook.com/share/18MJH5gqat/?mibextid=LQQJ4d)")
 st.sidebar.image("jumiaimage.png")
 c1 = st.sidebar.selectbox("Select an option...", ["EDA", "Insights"])
 
-# Flag to track whether data has been scraped
-scraped = False
-df = None
+# Initialize session state for df if not already
+if 'df' not in st.session_state:
+    st.session_state.df = None
 
-# Add scrape button to trigger scraping and flag update
 st.title("Jumia Product Scraper")
 st.subheader("We will scrape many products and choose the best product of best price and best discount ")
 
 if st.button("Scrape now.."):
     with st.spinner("Scraping data from Jumia..."):
-        df = scrape_jumia()
-        if df is not None and not df.empty:
-            scraped = True
-            st.success("Scraping completed successfully!")
-            st.dataframe(df)
-        else:
-            st.warning("No data scraped. Please check the website or your scraping logic.")
+        st.session_state.df = scrape_jumia()
+
+    if st.session_state.df is None or st.session_state.df.empty:
+        st.warning("No data scraped. Please check the website or your scraping logic.")
+    else:
+        st.success("Scraping completed successfully!")
+        st.dataframe(st.session_state.df)
 
 if c1 == "EDA":
-    if scraped and df is not None:
+    if st.session_state.df is not None:
         c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
         if c2 == "Scatter chart":
             st.subheader("Prices")
-            sc1 = px.scatter(df, x="Price", y="Old Price", color="Discount")
+            sc1 = px.scatter(st.session_state.df, x="Price", y="Old Price", color="Discount")
             st.plotly_chart(sc1)
             st.subheader("Discounts")
-            sc2 = px.scatter(df, x="Old Price", y="Discount", color="Discount")
+            sc2 = px.scatter(st.session_state.df, x="Old Price", y="Discount", color="Discount")
             st.plotly_chart(sc2)
         elif c2 == "Bar chart":
             st.subheader("Prices")
-            br1 = px.bar(df, x="Price", y="Old Price", color="Discount")
+            br1 = px.bar(st.session_state.df, x="Price", y="Old Price", color="Discount")
             st.plotly_chart(br1)
             st.subheader("Discounts")
-            br2 = px.bar(df, x="Old Price", y="Discount", color="Discount")
+            br2 = px.bar(st.session_state.df, x="Old Price", y="Discount", color="Discount")
             st.plotly_chart(br2)
         else:
             st.warning("Please scrape data first by going to the Home section.")
-    else:
-        st.warning("Please scrape data first to enable EDA functionality.")
 
 elif c1 == "Insights":
-    if scraped:
-        st.subheader("""1) The comparison between the current price and the old price highlights the level of price reductions. A significant difference indicates a notable price drop, which could attract cost-conscious customers. Products with a large gap between the old and current price are more likely to appeal as value-for-money items. 2) Items with visible discounts and significant old price reductions are likely part of a sales strategy to clear inventory or promote specific products. Products with minimal price differences or no discounts may cater to premium segments or represent newly launched items.""")
-    else:
-        st.warning("Please scrape data first to enable Insights.")
+    st.subheader("""1) The comparison between the current price and the old price highlights the level of price reductions. A significant difference indicates a notable price drop, which could attract cost-conscious customers. Products with a large gap between the old and current price are more likely to appeal as value-for-money items. 2) Items with visible discounts and significant old price reductions are likely part of a sales strategy to clear inventory or promote specific products. Products with minimal price differences or no discounts may cater to premium segments or represent newly launched items.""")
