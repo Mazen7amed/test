@@ -15,7 +15,6 @@ def init_driver():
     firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', False)
     firefox_profile.set_preference("media.volume_scale", "0.0")
     firefox_profile.set_preference("dom.webnotifications.enabled", False)
-    URL = ""
     TIMEOUT = 20
 
     st.title("Test Selenium")
@@ -23,7 +22,6 @@ def init_driver():
     firefoxOptions = Options()
     firefoxOptions.add_argument("--headless")
     driver = webdriver.Firefox(options=firefoxOptions)
-    driver.get(URL)
     return driver
 
 def scrape_jumia():
