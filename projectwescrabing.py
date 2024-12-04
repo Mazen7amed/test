@@ -12,24 +12,18 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 
 
+firefoxOptions = Options()
+firefoxOptions.add_argument("--headless")
+service = Service(GeckoDriverManager().install())
+driver = webdriver.Firefox(
+    options=firefoxOptions,
+    service=service,
+)
+TIMEOUT = 20
 
-def init_driver():
-    firefoxOptions = Options()
-    firefoxOptions.add_argument("--headless")
-    service = Service(GeckoDriverManager().install())
-    driver = webdriver.Firefox(
-        options=firefoxOptions,
-        service=service,
-    )
-    driver.get(URL)
-    URL = ""
-    TIMEOUT = 20
-
-    st.title("Test Selenium")
-    return driver
+st.title("Test Selenium")
 
 def scrape_jumia():
-    driver = init_driver()
     driver.get("https://www.jumia.com.eg/")
     wait = WebDriverWait(driver, 10)
     click1 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".cls")))
