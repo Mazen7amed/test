@@ -80,7 +80,7 @@ def scrape_jumia():
 # Streamlit UI
 st.title("Jumia Product Scraper")
 st.subheader("We will scrape many products and choose the best product of best price and best discount ")
-
+df = pd.DataFrame()
 if st.button("Scrape now.."):
     with st.spinner("Scraping data from Jumia..."):
         df = scrape_jumia()
