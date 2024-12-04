@@ -29,13 +29,19 @@ TIMEOUT = 20
 
 def scrape_jumia():
     driver.get("https://www.jumia.com.eg/")
-    wait = WebDriverWait(driver, 10)
-    click1 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".cls")))
-    click1.click()
+    wait = WebDriverWait(driver, 30)  # Increase wait time to 30 seconds
+    try:
+        # Attempt to click the popup or other element
+        click1 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".cls")))
+        click1.click()
+    except TimeoutException:
+        print("Popup not found or could not be clicked")
+    
     search_box = driver.find_element(By.CSS_SELECTOR, "#fi-q")
     search_box.send_keys("smart watches")
     search_button = driver.find_element(By.CSS_SELECTOR, "button.-mls")
     search_button.click()
+    
     wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 
         "div.-paxs.row._no-g._4cl-3cm-shs article.prd._fb.col.c-prd")))
     titles = driver.find_elements(By.CSS_SELECTOR, 
@@ -67,6 +73,7 @@ def scrape_jumia():
         "Discount": products_dprice
     })
     return df
+
 
 st.title("Jumia Product Scraper")
 st.subheader("We will scrape many products and choose the best product of best price and best discount ")
