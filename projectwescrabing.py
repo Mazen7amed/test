@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,7 +10,7 @@ from selenium.common.exceptions import TimeoutException
 
 
 
-def init_driver(service):
+def init_driver():
     firefox_profile = webdriver.FirefoxProfile()
     firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', False)
     firefox_profile.set_preference("media.volume_scale", "0.0")
