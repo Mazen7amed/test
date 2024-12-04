@@ -84,24 +84,27 @@ if c1 == "EDA":
         else:
             st.success("Scraping completed successfully!")
             st.dataframe(df)
-    if df is not None:
-        c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
-        if c2 == "Scatter chart":
-            st.subheader("Prices")
-            sc1 = px.scatter(df, x="Price", y="Old Price", color="Discount")
-            st.plotly_chart(sc1)
-            st.subheader("Discounts")
-            sc2 = px.scatter(df, x="Old Price", y="Discount", color="Discount")
-            st.plotly_chart(sc2)
-        elif c2 == "Bar chart":
-            st.subheader("Prices")
-            br1 = px.bar(df, x="Price", y="Old Price", color="Discount")
-            st.plotly_chart(br1)
-            st.subheader("Discounts")
-            br2 = px.bar(df, x="Old Price", y="Discount", color="Discount")
-            st.plotly_chart(br2)
+        
+        if df is not None:
+            c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
+            if c2 == "Scatter chart":
+                st.subheader("Prices")
+                sc1 = px.scatter(df, x="Price", y="Old Price", color="Discount")
+                st.plotly_chart(sc1)
+                st.subheader("Discounts")
+                sc2 = px.scatter(df, x="Old Price", y="Discount", color="Discount")
+                st.plotly_chart(sc2)
+            elif c2 == "Bar chart":
+                st.subheader("Prices")
+                br1 = px.bar(df, x="Price", y="Old Price", color="Discount")
+                st.plotly_chart(br1)
+                st.subheader("Discounts")
+                br2 = px.bar(df, x="Old Price", y="Discount", color="Discount")
+                st.plotly_chart(br2)
+        else:
+            st.warning("Please scrape data first by going to the Home section.")
     else:
-        st.warning("Please scrape data first by going to the Home section.")
+        st.warning("Please scrape data first")
 
 elif c1 == "Insights":
     st.subheader("""1) The comparison between the current price and the old price highlights the level of price reductions. A significant difference indicates a notable price drop, which could attract cost-conscious customers. Products with a large gap between the old and current price are more likely to appeal as value-for-money items. 2) Items with visible discounts and significant old price reductions are likely part of a sales strategy to clear inventory or promote specific products. Products with minimal price differences or no discounts may cater to premium segments or represent newly launched items.""")
