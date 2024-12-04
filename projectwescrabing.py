@@ -70,20 +70,21 @@ st.sidebar.image("jumiaimage.png")
 c1 = st.sidebar.selectbox("Select an option...", ["EDA", "Insights"])
 
 
-df = None
-st.title("Jumia Product Scraper")
-st.subheader("We will scrape many products and choose the best product of best price and best discount ")
-if st.button("Scrape now.."):
-    with st.spinner("Scraping data from Jumia..."):
-        df = scrape_jumia()
-
-    if df is None or df.empty:
-        st.warning("No data scraped. Please check the website or your scraping logic.")
-    else:
-        st.success("Scraping completed successfully!")
-        st.dataframe(df)
 
 if c1 == "EDA":
+    df = None
+    st.title("Jumia Product Scraper")
+    st.subheader("We will scrape many products and choose the best product of best price and best discount ")
+    if st.button("Scrape now.."):
+        with st.spinner("Scraping data from Jumia..."):
+            df = scrape_jumia()
+    
+        if df is None or df.empty:
+            st.warning("No data scraped. Please check the website or your scraping logic.")
+        else:
+            st.success("Scraping completed successfully!")
+            st.dataframe(df)
+
     if df is not None:
         c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
         if c2 == "Scatter chart":
