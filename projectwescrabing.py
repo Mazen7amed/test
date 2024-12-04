@@ -33,7 +33,7 @@ def scrape_jumia():
     click1 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".cls")))
     click1.click()
 
-    search_box = driver.find_element(By.CSS_SELECTOR, "#fi-q")
+    search_box = driver.find_element(By.CSS_SELECTOR, "input#fi-q")
     search_box.send_keys("smart watches")
     search_button = driver.find_element(By.CSS_SELECTOR, "button.-mls")
     search_button.click()
