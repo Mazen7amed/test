@@ -9,16 +9,23 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.firefox import GeckoDriverManager
+import os, sys
+
+@st.experimental_singleton
+def installff():
+  os.system('sbase install geckodriver')
+  os.system('ln -s /home/appuser/venv/lib/python3.12/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
+_ = installff()
+from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
+opts = FirefoxOptions()
+opts.add_argument("--headless")
+driver = webdriver.Firefox(options=opts)
 
 
 TIMEOUT = 20
 
-firefoxOptions = Options()
-firefoxOptions.add_argument("--headless")
-geckodriver_path = "./driver/geckodriver"
-service = Service(geckodriver_path)
-driver = webdriver.Firefox(options=firefoxOptions,service=service)
-st.title("Test Selenium")
 
 def scrape_jumia():
     driver.get("https://www.jumia.com.eg/")
