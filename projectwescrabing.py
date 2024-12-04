@@ -6,10 +6,6 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-import os, sys
-
-
 
 def init_driver():
     firefox_profile = webdriver.FirefoxProfile()
@@ -71,40 +67,41 @@ def scrape_jumia():
 st.sidebar.title("Navigations")
 st.sidebar.markdown("Created by [Youssef Shady](https://www.facebook.com/share/18MJH5gqat/?mibextid=LQQJ4d)")
 st.sidebar.image("jumiaimage.png")
-c1 = st.sidebar.selectbox("select an option..", ["Home","EDA","Insights"])
+c1 = st.sidebar.selectbox("Select an option...", ["Home", "EDA", "Insights"])
 
-# Declare df outside the condition so it can be accessed globally
-df = None
+# Initialize the session state for df if not already present
+if 'df' not in st.session_state:
+    st.session_state.df = None
 
 if c1 == "Home":
     st.title("Jumia Product Scraper")
     st.subheader("We will scrape many products and choose the best product of best price and best discount ")
     if st.button("Scrape now.."):
         with st.spinner("Scraping data from Jumia..."):
-            df = scrape_jumia()
+            st.session_state.df = scrape_jumia()
     
-        if df.empty:
+        if st.session_state.df is None or st.session_state.df.empty:
             st.warning("No data scraped. Please check the website or your scraping logic.")
         else:
             st.success("Scraping completed successfully!")
-            st.dataframe(df)
+            st.dataframe(st.session_state.df)
 
 elif c1 == "EDA":
-    if df is not None:
-        c2 = st.sidebar.radio("select chart", ["Bar chart", "Scatter chart"])
+    if st.session_state.df is not None:
+        c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
         if c2 == "Scatter chart":
             st.subheader("Prices")
-            sc1 = px.scatter(df, x="Price", y="Old Price", color="Discount")
+            sc1 = px.scatter(st.session_state.df, x="Price", y="Old Price", color="Discount")
             st.plotly_chart(sc1)
             st.subheader("Discounts")
-            sc2 = px.scatter(df, x="Old Price", y="Discount", color="Discount")
+            sc2 = px.scatter(st.session_state.df, x="Old Price", y="Discount", color="Discount")
             st.plotly_chart(sc2)
         elif c2 == "Bar chart":
             st.subheader("Prices")
-            br1 = px.bar(df, x="Price", y="Old Price", color="Discount")
+            br1 = px.bar(st.session_state.df, x="Price", y="Old Price", color="Discount")
             st.plotly_chart(br1)
             st.subheader("Discounts")
-            br2 = px.bar(df, x="Old Price", y="Discount", color="Discount")
+            br2 = px.bar(st.session_state.df, x="Old Price", y="Discount", color="Discount")
             st.plotly_chart(br2)
     else:
         st.warning("Please scrape data first by going to the Home section.")
