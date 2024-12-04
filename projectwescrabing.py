@@ -11,28 +11,25 @@ from selenium.common.exceptions import TimeoutException
 from webdriver_manager.firefox import GeckoDriverManager
 
 
-geckodriver_path = "./driver/geckodriver"
 
-service = Service(GeckoDriverManager().install())
 
-def init_driver(service):
-    firefox_profile = webdriver.FirefoxProfile()
-    firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', False)
-    firefox_profile.set_preference("media.volume_scale", "0.0")
-    firefox_profile.set_preference("dom.webnotifications.enabled", False)
+def init_driver():
+    firefoxOptions = Options()
+    firefoxOptions.add_argument("--headless")
+    service = Service(GeckoDriverManager().install())
+    driver = webdriver.Firefox(
+        options=firefoxOptions,
+        service=service,
+    )
+    driver.get(URL)
     URL = ""
     TIMEOUT = 20
 
     st.title("Test Selenium")
-
-    firefoxOptions = Options()
-    firefoxOptions.add_argument("--headless")
-    driver = webdriver.Firefox(options=firefoxOptions,service=service)
-    driver.get(URL)
     return driver
 
 def scrape_jumia():
-    driver = init_driver(service)
+    driver = init_driver()
     driver.get("https://www.jumia.com.eg/")
     wait = WebDriverWait(driver, 10)
     click1 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".cls")))
