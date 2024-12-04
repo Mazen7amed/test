@@ -66,42 +66,38 @@ def scrape_jumia():
     })
     return df
 
-def main():
-    st.title("Jumia Product Scraper")
-    st.subheader("We will scrape many products and choose the best product of best price and best discount ")
-    if st.button("Scrape now.."):
-        with st.spinner("Scraping data from Jumia..."):
-            df = scrape_jumia()
+st.title("Jumia Product Scraper")
+st.subheader("We will scrape many products and choose the best product of best price and best discount ")
+if st.button("Scrape now.."):
+    with st.spinner("Scraping data from Jumia..."):
+        df = scrape_jumia()
 
-        if df.empty:
-            st.warning("No data scraped. Please check the website or your scraping logic.")
-        else:
-            st.success("Scraping completed successfully!")
-            st.dataframe(df)
-    st.sidebar.title("Navigations")
-    st.sidebar.markdown("Created by [Youssef Shady](https://www.facebook.com/share/18MJH5gqat/?mibextid=LQQJ4d)")
-    st.sidebar.image("jumiaimage.png")
-    c1 = st.sidebar.selectbox("select an option..", ["EDA","Insights"])
-    df = scrape_jumia()
-    if c1 == "EDA":
-        c2 = st.sidebar.radio("select chart", ["Bar chart" , "Scatter chart"])
-        if c2 == "Scatter chart":
-            st.subheader("Prices")
-            sc1 = px.scatter(df, x= "Price" , y= "Old Price", color="Discount")
-            st.plotly_chart(sc1)
-            st.subheader("Discounts")
-            sc2 = px.scatter(df , x= "Old Price" , y= "Discount", color="Discount")
-            st.plotly_chart(sc2)
-        if c2 == "Bar chart":
-            st.subheader("Prices")
-            br1 = px.bar(df, x="Price" , y= "Old Price", color= "Discount")
-            st.plotly_chart(br1)
-            st.subheader("Discounts")
-            br2 = px.bar(df , x= "Old Price" , y= "Discount", color= "Discount")
-            st.plotly_chart(br2)
-    elif c1 == "Insights":
-        st.subheader("""1) The comparison between the current price and the old price highlights the level of price reductions. A significant difference indicates a notable price drop, which could attract cost-conscious customers. Products with a large gap between the old and current price are more likely to appeal as value-for-money items. 2) Items with visible discounts and significant old price reductions are likely part of a sales strategy to clear inventory or promote specific products. Products with minimal price differences or no discounts may cater to premium segments or represent newly launched items.""")
-if __name__ == "__main__":
-    main()
-
+    if df.empty:
+        st.warning("No data scraped. Please check the website or your scraping logic.")
+    else:
+        st.success("Scraping completed successfully!")
+        st.dataframe(df)
+st.sidebar.title("Navigations")
+st.sidebar.markdown("Created by [Youssef Shady](https://www.facebook.com/share/18MJH5gqat/?mibextid=LQQJ4d)")
+st.sidebar.image("jumiaimage.png")
+c1 = st.sidebar.selectbox("select an option..", ["EDA","Insights"])
+df = scrape_jumia()
+if c1 == "EDA":
+    c2 = st.sidebar.radio("select chart", ["Bar chart" , "Scatter chart"])
+    if c2 == "Scatter chart":
+        st.subheader("Prices")
+        sc1 = px.scatter(df, x= "Price" , y= "Old Price", color="Discount")
+        st.plotly_chart(sc1)
+        st.subheader("Discounts")
+        sc2 = px.scatter(df , x= "Old Price" , y= "Discount", color="Discount")
+        st.plotly_chart(sc2)
+    if c2 == "Bar chart":
+        st.subheader("Prices")
+        br1 = px.bar(df, x="Price" , y= "Old Price", color= "Discount")
+        st.plotly_chart(br1)
+        st.subheader("Discounts")
+        br2 = px.bar(df , x= "Old Price" , y= "Discount", color= "Discount")
+        st.plotly_chart(br2)
+elif c1 == "Insights":
+    st.subheader("""1) The comparison between the current price and the old price highlights the level of price reductions. A significant difference indicates a notable price drop, which could attract cost-conscious customers. Products with a large gap between the old and current price are more likely to appeal as value-for-money items. 2) Items with visible discounts and significant old price reductions are likely part of a sales strategy to clear inventory or promote specific products. Products with minimal price differences or no discounts may cater to premium segments or represent newly launched items.""")
 
