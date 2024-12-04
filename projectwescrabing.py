@@ -67,7 +67,7 @@ def scrape_jumia():
 st.sidebar.title("Navigations")
 st.sidebar.markdown("Created by [Youssef Shady](https://www.facebook.com/share/18MJH5gqat/?mibextid=LQQJ4d)")
 st.sidebar.image("jumiaimage.png")
-c1 = st.sidebar.selectbox("Select an option...", ["Home", "EDA", "Insights"])
+c1 = st.sidebar.selectbox("Select an option...", ["EDA", "Insights"])
 
 
 
@@ -83,7 +83,7 @@ if st.button("Scrape now.."):
         st.success("Scraping completed successfully!")
         st.dataframe(df)
 
-elif c1 == "EDA":
+if c1 == "EDA":
     if df is not None:
         c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
         if c2 == "Scatter chart":
