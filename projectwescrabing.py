@@ -9,10 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-import os
-import stat
 
-# Path to geckodriver inside the 'drivers' directory
 geckodriver_path = "./driver/geckodriver"
 
 service = Service(executable_path= geckodriver_path)
