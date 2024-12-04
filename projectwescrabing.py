@@ -12,15 +12,9 @@ from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver import FirefoxOptions
 import os, sys
 
-@st.cache_resource
-def installff():
-  os.system('sbase install geckodriver')
-  os.system('ln -s /home/appuser/venv/lib/python3.12/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
-
-
 
 def scrape_jumia():
-    installff()
+    #installff()
     opts = FirefoxOptions()
     opts.add_argument("--headless")
     driver = webdriver.Firefox(options=opts)
