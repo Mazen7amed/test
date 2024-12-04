@@ -10,10 +10,6 @@ from selenium.common.exceptions import TimeoutException
 import os, sys
 
 
-def installff():
-    os.system('sbase install geckodriver')
-    os.system('ln -s /home/appuser/venv/lib/python3.10/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
-#installff()
 
 def init_driver():
     firefox_profile = webdriver.FirefoxProfile()
@@ -39,12 +35,14 @@ def scrape_jumia():
     search_button.click()
     wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 
         "div.-paxs.row._no-g._4cl-3cm-shs article.prd._fb.col.c-prd")))
+
     titles = driver.find_elements(By.CSS_SELECTOR, 
         "div.-paxs.row._no-g._4cl-3cm-shs article.prd._fb.col.c-prd")
     products_title = []
     products_cprice = []
     products_oprice = []
     products_dprice = []
+
     for title in titles:
         product_title = title.find_element(By.CSS_SELECTOR, "div.info h3.name").text
         try:
@@ -74,6 +72,10 @@ st.sidebar.title("Navigations")
 st.sidebar.markdown("Created by [Youssef Shady](https://www.facebook.com/share/18MJH5gqat/?mibextid=LQQJ4d)")
 st.sidebar.image("jumiaimage.png")
 c1 = st.sidebar.selectbox("select an option..", ["Home","EDA","Insights"])
+
+# Declare df outside the condition so it can be accessed globally
+df = None
+
 if c1 == "Home":
     st.title("Jumia Product Scraper")
     st.subheader("We will scrape many products and choose the best product of best price and best discount ")
@@ -86,23 +88,26 @@ if c1 == "Home":
         else:
             st.success("Scraping completed successfully!")
             st.dataframe(df)
-        
+
 elif c1 == "EDA":
-    c2 = st.sidebar.radio("select chart", ["Bar chart" , "Scatter chart"])
-    if c2 == "Scatter chart":
-        st.subheader("Prices")
-        sc1 = px.scatter(df, x= "Price" , y= "Old Price", color="Discount")
-        st.plotly_chart(sc1)
-        st.subheader("Discounts")
-        sc2 = px.scatter(df , x= "Old Price" , y= "Discount", color="Discount")
-        st.plotly_chart(sc2)
-    if c2 == "Bar chart":
-        st.subheader("Prices")
-        br1 = px.bar(df, x="Price" , y= "Old Price", color= "Discount")
-        st.plotly_chart(br1)
-        st.subheader("Discounts")
-        br2 = px.bar(df , x= "Old Price" , y= "Discount", color= "Discount")
-        st.plotly_chart(br2)
+    if df is not None:
+        c2 = st.sidebar.radio("select chart", ["Bar chart", "Scatter chart"])
+        if c2 == "Scatter chart":
+            st.subheader("Prices")
+            sc1 = px.scatter(df, x="Price", y="Old Price", color="Discount")
+            st.plotly_chart(sc1)
+            st.subheader("Discounts")
+            sc2 = px.scatter(df, x="Old Price", y="Discount", color="Discount")
+            st.plotly_chart(sc2)
+        elif c2 == "Bar chart":
+            st.subheader("Prices")
+            br1 = px.bar(df, x="Price", y="Old Price", color="Discount")
+            st.plotly_chart(br1)
+            st.subheader("Discounts")
+            br2 = px.bar(df, x="Old Price", y="Discount", color="Discount")
+            st.plotly_chart(br2)
+    else:
+        st.warning("Please scrape data first by going to the Home section.")
+
 elif c1 == "Insights":
     st.subheader("""1) The comparison between the current price and the old price highlights the level of price reductions. A significant difference indicates a notable price drop, which could attract cost-conscious customers. Products with a large gap between the old and current price are more likely to appeal as value-for-money items. 2) Items with visible discounts and significant old price reductions are likely part of a sales strategy to clear inventory or promote specific products. Products with minimal price differences or no discounts may cater to premium segments or represent newly launched items.""")
-
