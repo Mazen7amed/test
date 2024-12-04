@@ -27,7 +27,7 @@ if st.sidebar.button("Setup Environment"):
     with st.spinner("Installing Firefox and Geckodriver..."):
         
         # Install Firefox
-        stdout, stderr = run_bash_command("apt-get update && apt-get install -y firefox-esr")
+        stdout, stderr = run_bash_command("sudo apt-get update sudo apt-get install -y firefox-esr")
         if stderr:
             st.error(f"Error installing Firefox: {stderr}")
         else:
@@ -37,15 +37,14 @@ if st.sidebar.button("Setup Environment"):
         stdout, stderr = run_bash_command(
             "curl -L https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz -o geckodriver.tar.gz && "
             "tar -xvzf geckodriver.tar.gz && "
-            "mv geckodriver /usr/local/bin/ && rm geckodriver.tar.gz"
-        )
+            "sudo mv geckodriver /usr/local/bin/")
         if stderr:
             st.error(f"Error installing Geckodriver: {stderr}")
         else:
             st.success("Geckodriver installed successfully!")
 
 # Set up Geckodriver and Selenium
-geckodriver_path = "/usr/local/bin/geckodriver"  # Default location after the bash setup
+geckodriver_path = os.path.expanduser("~/.local/bin/geckodriver")
 service = Service(executable_path=geckodriver_path)
 
 def init_driver(service):
