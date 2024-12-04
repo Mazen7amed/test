@@ -9,8 +9,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 
+@st.cache_resource
+def installff():
+    os.system('sbase install geckodriver')
+    os.system('ln -s /home/appuser/venv/lib/python3.10/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
 
 def init_driver():
+    installff()
     firefox_profile = webdriver.FirefoxProfile()
     firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', False)
     firefox_profile.set_preference("media.volume_scale", "0.0")
