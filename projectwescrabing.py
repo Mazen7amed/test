@@ -74,7 +74,7 @@ st.title("Jumia Product Scraper")
 st.subheader("We will scrape many products and choose the best product of best price and best discount ")
 if st.button("Scrape now.."):
     st.spinner("Scraping data from Jumia...")
-        df = scrape_jumia()
+    df = scrape_jumia()
 
     if df is None or df.empty:
         st.warning("No data scraped. Please check the website or your scraping logic.")
