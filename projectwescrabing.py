@@ -27,7 +27,7 @@ def init_driver():
     return driver
 
 def scrape_jumia():
-    driver = init_driver(service)
+    driver = init_driver()
     driver.get("https://www.jumia.com.eg/")
     wait = WebDriverWait(driver, 10)
     click1 = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".cls")))
