@@ -81,10 +81,11 @@ if st.button("Scrape now.."):
     else:
         st.success("Scraping completed successfully!")
         st.dataframe(df)
-        
+else:
+    df = None
 
 if c1 == "EDA":
-    if df:
+    if df is not None:
         c2 = st.sidebar.radio("Select chart", ["Bar chart", "Scatter chart"])
         if c2 == "Scatter chart":
             st.subheader("Prices")
